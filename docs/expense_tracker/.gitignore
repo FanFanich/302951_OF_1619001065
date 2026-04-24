@@ -1,1 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
 
+# OS
+.DS_Store
+Thumbs.db
+
+# Данные (раскомментируйте, если не хотите хранить расходы в репозитории)
+# expenses.json
