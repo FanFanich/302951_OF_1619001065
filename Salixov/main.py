@@ -9,7 +9,6 @@ DATA_FILE = "history.json"
 MIN_LENGTH = 4
 MAX_LENGTH = 32
 
-# --- Работа с данными (JSON) ---
 def load_history():
     """Загружает историю паролей из файла."""
     if os.path.exists(DATA_FILE):
@@ -22,7 +21,6 @@ def save_history(history):
     with open(DATA_FILE, "w") as f:
         json.dump(history, f, indent=2)
 
-# --- Генерация пароля ---
 def generate_password():
     """Генерирует пароль на основе выбранных настроек."""
     length = int(scale_length.get())
@@ -30,12 +28,10 @@ def generate_password():
     use_letters = var_letters.get()
     use_symbols = var_symbols.get()
 
-    # Проверка: выбран хотя бы один тип символов
     if not (use_digits or use_letters or use_symbols):
         messagebox.showerror("Ошибка", "Выберите хотя бы один тип символов!")
         return
 
-    # Сбор набора символов
     chars = ""
     if use_letters:
         chars += string.ascii_letters  # a-zA-Z
@@ -44,10 +40,8 @@ def generate_password():
     if use_symbols:
         chars += string.punctuation    # Спецсимволы
 
-    # Генерация пароля
     password = ''.join(random.choices(chars, k=length))
     
-    # Отображение и сохранение в историю
     entry_password.delete(0, tk.END)
     entry_password.insert(0, password)
     
@@ -72,20 +66,17 @@ def validate_length(val):
     except ValueError:
         return False
 
-# --- Обновление истории ---
 def update_history_list():
     """Обновляет виджет списка истории."""
     history_list.delete(0, tk.END)
     for pwd in load_history():
         history_list.insert(tk.END, pwd)
 
-# --- Создание GUI ---
 root = tk.Tk()
 root.title("Random Password Generator")
 root.geometry("500x500")
 root.resizable(False, False)
 
-# --- Настройки генерации ---
 frame_settings = tk.LabelFrame(root, text="Настройки", padx=10, pady=10)
 frame_settings.pack(pady=10, padx=10, fill="x")
 
@@ -107,18 +98,15 @@ tk.Checkbutton(frame_settings, text="Спецсимволы (!@#)", variable=var
 btn_generate = tk.Button(root, text="Сгенерировать пароль", command=generate_password)
 btn_generate.pack(pady=15)
 
-# --- Результат ---
 frame_result = tk.LabelFrame(root, text="Ваш пароль", padx=10, pady=10)
 frame_result.pack(pady=5, padx=10, fill="x")
 entry_password = tk.Entry(frame_result, width=40)
 entry_password.pack(pady=5)
 
-# --- История ---
 frame_history = tk.LabelFrame(root, text="История сгенерированных паролей", padx=10, pady=10)
 frame_history.pack(pady=10, padx=10, fill="both", expand=True)
 history_list = tk.Listbox(frame_history)
 history_list.pack(fill="both", expand=True)
 
-# Загрузка истории при старте
 update_history_list()
 root.mainloop()
