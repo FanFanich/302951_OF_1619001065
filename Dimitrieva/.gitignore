@@ -1,0 +1,16 @@
+# Файл данных (не загружаем в репозиторий)
+favorites.json
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
